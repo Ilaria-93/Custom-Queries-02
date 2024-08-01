@@ -5,9 +5,11 @@ import com.example.customqueries1.enums.StatusEnum;
 import com.example.customqueries1.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/flights")
@@ -19,6 +21,16 @@ public class FlightController {
     @PostMapping("/provision")
     public void provisionFlights(@RequestParam Integer n) {
         flightService.provisionFlights(n);
+    }
+
+    @GetMapping("/selectflight")
+    public ResponseEntity<Flight> getFlightById(@RequestParam Integer id) {
+        Optional<Flight> flightOpt = flightService.findByIdFlight(id);
+        if (flightOpt.isPresent()) {
+            return ResponseEntity.ok(flightOpt.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/retrieve")

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -26,6 +27,11 @@ public class FlightService {
             Flight flight = new Flight(i, random.toString(), random.toString(), random.toString(), StatusEnum.ON_TIME);
             flightRepository.save(flight);
         }
+    }
+
+    public Optional<Flight> findByIdFlight(Integer id) {
+       Optional<Flight> flightOpt = flightRepository.findById(id);
+       return flightOpt;
     }
 
     public Page<Flight> retrieveFlights(Integer page, Integer size) {
